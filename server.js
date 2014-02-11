@@ -3,6 +3,8 @@ stylus = require('stylus')
 mongoose = require('mongoose');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+var mongodb_user = process.env.MONGODB_USER
+var mongodb_password = process.env.MONGODB_PASSWORD
 
 var app = express();
 
@@ -21,8 +23,12 @@ app.configure(function() {
     app.use(express.bodyParser())
     app.use(express.static(__dirname + '/public'));
 })
+if (env === 'development'){
+  mongoose.connect('mongodb://localhost/multivision');
+} else {
+  mongoose.connect('mongodb://' + mongodb_user + ':' + mongodb_password + '@ds031349.mongolab.com:31349/multivision');
+}
 
-mongoose.connect('mongodb://localhost/multivision');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error...'));
 db.once('open', function callback() {
@@ -47,5 +53,5 @@ app.get('*', function(req, res) {
     })
 })
 
-var port = 3030;
+var port = process.env.PORT || 3030;
 app.listen(port)
