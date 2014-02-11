@@ -1,6 +1,6 @@
-var express = require('express');
-stylus = require('stylus')
-mongoose = require('mongoose');
+var express = require('express'),
+    stylus = require('stylus'),
+    mongoose = require('mongoose');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 var mongodb_user = process.env.MONGODB_USER
@@ -23,10 +23,10 @@ app.configure(function() {
     app.use(express.bodyParser())
     app.use(express.static(__dirname + '/public'));
 })
-if (env === 'development'){
-  mongoose.connect('mongodb://localhost/multivision');
+if (env === 'development') {
+    mongoose.connect('mongodb://localhost/multivision');
 } else {
-  mongoose.connect('mongodb://' + mongodb_user + ':' + mongodb_password + '@ds031349.mongolab.com:31349/multivision');
+    mongoose.connect('mongodb://' + mongodb_user + ':' + mongodb_password + '@ds031349.mongolab.com:31349/multivision');
 }
 
 var db = mongoose.connection;
